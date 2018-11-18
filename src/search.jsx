@@ -20,21 +20,17 @@ const ResultList = props => {
 };
 
 class Search extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: "",
-      results: [],
-      currentText: ""
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  populateResult = val => {
-    this.setState({
-      results: getSuggestions(val)
-    });
+  state = {
+    query: "",
+    results: [],
+    currentText: ""
   };
+
+  // populateResult = val => {
+  //   this.setState({
+  //     results: getSuggestions(val)
+  //   });
+  // };
 
   resetResult = () => {
     this.setState({
@@ -42,67 +38,27 @@ class Search extends Component {
     });
   };
 
-  // handleInputChange = e => {
-  //   this.setState(
-  //     {
-  //       query: this.search.value
-  //     },
-  //     () => {
-  //       if (this.search.value && this.search.value.length > 0) {
-  //         this.populateResult();
-  //       } else {
-  //         this.resetResult();
-  //       }
-  //     },
-  //     {
-  //       currentText: e.target.value
-  //     }
-  //   );
-  // };
-
-  handleInputChange(e) {
+  handleInputChange = e => {
+    const eventValue = e.target.value;
     this.setState(
-      // () => {
-      //   if (e.target.value && e.target.value.length > 0) {
-      //     this.populateResult(e.target.value);
-      //   } else {
-      //     this.resetResult();
-      //   }
-      // },
       {
-        currentText: e.target.value,
-        results: getSuggestions(e.target.value)
+        currentText: eventValue
+      },
+      () => {
+        if (eventValue.length > 0) {
+          this.setState({ results: getSuggestions(eventValue) });
+        } else {
+          this.resetResult();
+        }
       }
     );
-  }
+  };
 
   handleClick = val => {
     this.setState({
       currentText: val
     });
   };
-
-  //  handleClick = e => {
-  //   this.setState({
-  //     query: ,
-  //     results: getSuggestions(e)
-  //   });
-  // };
-
-  // handleClick = e => {
-  //   this.setState(
-  //     {
-  //       query: this.search.value
-  //     }
-  //     // () => {
-  //     //   if (e && e.length > 0) {
-  //     //     this.populateResult(e);
-  //     //   } else {
-  //     //     this.resetResult(e);
-  //     //   }
-  //     // }
-  //   );
-  // };
 
   render() {
     return (
@@ -115,15 +71,10 @@ class Search extends Component {
           />
           Bing
         </p>
-        {/* <input
-          placeholder="Search for..."
-          ref={input => (this.search = input)}
-          onChange={this.handleInputChange}
-        /> */}
+
         <input
           placeholder="Search for..."
           type="text"
-          // ref={input => (this.search = input)}
           value={this.state.currentText}
           onChange={this.handleInputChange}
         />
@@ -134,7 +85,6 @@ class Search extends Component {
             </li>
           ))}
         </ul>
-        {/* <ResultList results={this.state.results} /> */}
       </form>
     );
   }
