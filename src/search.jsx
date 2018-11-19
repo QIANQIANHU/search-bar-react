@@ -14,10 +14,10 @@ function getSuggestions(prefix) {
   return delay;
 }
 
-const ResultList = props => {
-  const options = props.results.map(r => <li key={r.id}>{r.name}</li>);
-  return <ul>{options}</ul>;
-};
+// const ResultList = props => {
+//   const options = props.results.map(r => <li key={r.id}>{r.name}</li>);
+//   return <ul>{options}</ul>;
+// };
 
 class Search extends Component {
   state = {
