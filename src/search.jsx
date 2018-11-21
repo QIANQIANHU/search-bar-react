@@ -6,18 +6,15 @@ function getSuggestions(prefix) {
   }).map(function(x) {
     return prefix + "_mock_" + x;
   });
-  return result;
   const delay = Math.random() * 800 + 200; // delay 200~1000ms
   return new Promise(function(resolve, reject) {
     setTimeout(resolve, delay, result);
   });
-  return delay;
 }
 
-// const ResultList = props => {
-//   const options = props.results.map(r => <li key={r.id}>{r.name}</li>);
-//   return <ul>{options}</ul>;
-// };
+function getResultList(props) {
+  console.log(getSuggestions(props));
+}
 
 class Search extends Component {
   state = {
@@ -25,12 +22,6 @@ class Search extends Component {
     results: [],
     currentText: ""
   };
-
-  // populateResult = val => {
-  //   this.setState({
-  //     results: getSuggestions(val)
-  //   });
-  // };
 
   resetResult = () => {
     this.setState({
@@ -46,7 +37,11 @@ class Search extends Component {
       },
       () => {
         if (eventValue.length > 0) {
-          this.setState({ results: getSuggestions(eventValue) });
+          getSuggestions(eventValue).then(suggestions => {
+            if (suggestions) {
+              this.setState({ results: suggestions });
+            }
+          });
         } else {
           this.resetResult();
         }
